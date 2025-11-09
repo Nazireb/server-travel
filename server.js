@@ -23,7 +23,7 @@ let flights = [
     "name": "Paris",
     "country": "France",
     "img_name": "paris.avif",
-    "short-desc": "Paris is a beautiful city known for its style, culture and charm. Its often called the City of love and is one of the most visted places in the world.",
+    "short_desc": "Paris is a beautiful city known for its style, culture and charm. Its often called the City of love and is one of the most visted places in the world.",
     "language": "French"
 },
 {
@@ -31,7 +31,7 @@ let flights = [
     "name": "Venice",
     "country": "Italy",
     "img_name": "venice.jpg",
-    "short-desc": "Venice is a unique city built on water that offers vistors a peaceful and unforgettable atmosphere that is unlike anywhere else.",
+    "short_desc": "Venice is a unique city built on water that offers vistors a peaceful and unforgettable atmosphere that is unlike anywhere else.",
     "language": "Italian"
 },
 {
@@ -39,7 +39,7 @@ let flights = [
     "name": "London",
     "country": "United Kingdom",
     "img_name": "london.jpg",
-    "short-desc": "London is a lively city full of history culture and modren day city life. This makes it a favrite destination from travlers around the world.",
+    "short_desc": "London is a lively city full of history culture and modren day city life. This makes it a favrite destination from travlers around the world.",
     "language": "English"
 },
 {
@@ -47,7 +47,7 @@ let flights = [
     "name": "Chicago",
     "country": "United States",
     "img_name": "chicago.jpg",
-    "short-desc": "Chicago is a city on Lake Michigan that provides a strong sense of character and amazing city views.",
+    "short_desc": "Chicago is a city on Lake Michigan that provides a strong sense of character and amazing city views.",
     "language": "English"
 },
 {
@@ -55,7 +55,7 @@ let flights = [
     "name": "Las Vegas",
     "country": "United States",
     "img_name": "las-vegas.jpg",
-    "short-desc": "Las Vegas is an exciting destination known for is bright lights, lots of energy and plentiful experiences that you will always remember.",
+    "short_desc": "Las Vegas is an exciting destination known for is bright lights, lots of energy and plentiful experiences that you will always remember.",
     "language": "English"
 },
 {
@@ -63,7 +63,7 @@ let flights = [
     "name": "Athens",
     "country": "Greece",
     "img_name": "Athens.jpg",
-    "short-desc": "A country filled with crystal clear waters, whitewashed villages, and ancient ruins.",
+    "short_desc": "A country filled with crystal clear waters, whitewashed villages, and ancient ruins.",
     "language": "Greek"
 },
 {
@@ -71,7 +71,7 @@ let flights = [
     "name": "Montego Bay",
     "country": "Jamaica",
     "img_name": "MontegoBay.jpg",
-    "short-desc": "A tropical island known for its beaches, reggae music. You can enjoy warm weather, delicious food and vibrant local culture.",
+    "short_desc": "A tropical island known for its beaches, reggae music. You can enjoy warm weather, delicious food and vibrant local culture.",
     "language": "English"
 },
 {
@@ -79,7 +79,7 @@ let flights = [
     "name": "Rio de Janeiro",
     "country": "Brazil",
     "img_name": "Rio.jpg",
-    "short-desc": "A lively and colorful full of energy, famous for its Carnvial, beaches, and rainforest.",
+    "short_desc": "A lively and colorful full of energy, famous for its Carnvial, beaches, and rainforest.",
     "language": "Portuguese"
 }
 ]
