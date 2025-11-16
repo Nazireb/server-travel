@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const multer = require("multer");
+const Joi = require("joi");
 const app = express();
 app.use(express.static("public"));
 app.use(express.json());
@@ -93,6 +94,38 @@ app.get("/api/flights/:id", (req, res)=>{
     const flight = flights.find((flight)=>flight._id === parseInt(req.params.id));
     res.send(flight);
 });
+
+app.post("/api/flights", upload.single("img"), (req,res)=>{
+    console.log("in post request");
+    const result = validateFlight(req.body);
+
+    if(result.error){
+        console.log("I have an error");
+        res.status(400).send(result.error.details[0].message);
+        return;
+    }
+
+    const flight = {
+        name:req.body.name,
+        country:req.body.country,
+    };
+
+    if(req.file){
+        flight.img_name = req.file.filename;
+    }
+
+    flights.push(flight);
+    res.status(200).send(flight);
+});
+
+const validateFlight = (flight) => {
+    const schema = Joi.object({
+        name:Joi.string().min(3).required(),
+        country:Joi.string().min(3).required(),
+    });
+
+    return schema.validate(flight);
+}
 
 
 app.listen(3001, () => {
