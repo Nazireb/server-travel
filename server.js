@@ -118,6 +118,48 @@ app.post("/api/flights", upload.single("img"), (req,res)=>{
     res.status(200).send(flight);
 });
 
+app.put("/api/flights/:id", upload.single("img"), (req, res)=>{
+
+
+    const flight = flights.find((h)=>h._id===parseInt(req.params.id));
+
+     if(!flight) {
+        res.status(404).send("The flight you wanted to edit is unavailable");
+        return;
+    }
+
+    const isValidUpdate = validateFlight(req.body);
+
+    if(isValidUpdate.error){
+        console.log("Invalid Info");
+        res.status(400).send(isValidUpdate.error.details[0].message);
+        return;
+    }
+
+    flight.name = req.body.name;
+    flight.country = req.body.country;
+
+    if(req.file){
+        flight.img_name = req.file.filename;
+    }
+
+    res.status(200).send(flight);
+
+});
+
+app.delete("/api/flights/:id", (req,res)=>{
+    const flight = flights.find((h)=>h._id===parseInt(req.params.id));
+    
+    if(!flight) {
+        res.status(404).send("The flight you wanted to delete is unavailable");
+        return;
+    }
+
+    const index = flights.indexOf(flight);
+    flights.splice(index, 1);
+    res.status(200).send(flight);
+});
+
 const validateFlight = (flight) => {
     const schema = Joi.object({
         name:Joi.string().min(3).required(),
