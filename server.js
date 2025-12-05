@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const multer = require("multer");
 const Joi = require("joi");
+const mongoose = require("mongoose");
 const app = express();
 app.use(express.static("public"));
 app.use(express.json());
@@ -18,7 +19,21 @@ const storage = multer.diskStorage({
   
   const upload = multer({ storage: storage });
 
-let flights = [
+  mongoose
+    .connect("mongodb+srv://Nazire:Nazireb@cluster0.sdzworf.mongodb.net/")
+    .then(() => console.log("Connected to mongodb..."))
+    .catch((err) => console.error("could not connect ot mongodb...", err));
+
+    const flightSchema = new mongoose.Schema({
+        name:String,
+        img_name:String,
+        country:String
+    });
+
+    const Flight = mongoose.mmodel("Flight", flightSchema);
+
+
+/*let flights = [
     {
     "_id": 1,
     "name": "Paris",
@@ -83,51 +98,38 @@ let flights = [
     "short_desc": "A lively and colorful full of energy, famous for its Carnvial, beaches, and rainforest.",
     "language": "Portuguese"
 }
-]
+]*/
 
-app.get("/api/flights/", (req, res)=>{
-    console.log("in get request")
+app.get("/api/flights/", async(req, res)=>{
+    const flights = await Flight.find();
     res.send(flights);
 });
 
-app.get("/api/flights/:id", (req, res)=>{
-    const flight = flights.find((flight)=>flight._id === parseInt(req.params.id));
-    res.send(flight);
-});
-
-app.post("/api/flights", upload.single("img"), (req,res)=>{
+app.post("/api/flights", upload.single("img"), async(req,res)=>{
     console.log("in post request");
-    const result = validateFlight(req.body);
+    const isValidFlight = validateFlight(req.body);
 
-    if(result.error){
+    if(isValidFlight.error){
         console.log("I have an error");
-        res.status(400).send(result.error.details[0].message);
+        res.status(400).send(isValidFlight.error.details[0].message);
         return;
     }
 
-    const flight = {
+    const flight = new Flight({
         name:req.body.name,
         country:req.body.country,
-    };
+        /*img_name:req.body.img_name*/
+    });
 
     if(req.file){
         flight.img_name = req.file.filename;
     }
 
-    flights.push(flight);
-    res.status(200).send(flight);
+    const newFlight = await flight.save();
+    res.status(200).send(newFlight);
 });
 
-app.put("/api/flights/:id", upload.single("img"), (req, res)=>{
-
-
-    const flight = flights.find((h)=>h._id===parseInt(req.params.id));
-
-     if(!flight) {
-        res.status(404).send("The flight you wanted to edit is unavailable");
-        return;
-    }
-
+app.put("/api/flights/:id", upload.single("img"), async(req, res)=>{
     const isValidUpdate = validateFlight(req.body);
 
     if(isValidUpdate.error){
@@ -136,27 +138,35 @@ app.put("/api/flights/:id", upload.single("img"), (req, res)=>{
         return;
     }
 
-    flight.name = req.body.name;
-    flight.country = req.body.country;
-
-    if(req.file){
-        flight.img_name = req.file.filename;
+    const fieldsToUpdate = {
+        name : req.body.name,
+        country : req.body.country
     }
 
-    res.status(200).send(flight);
+    if(req.file){
+        fieldsToUpdate.img_name = req.filename;
+    }
+
+    const success = await Flight.updateOne({_id:req.params.id}, fieldsToUpdate);
+
+    if(!success){
+        res.status(404).send("We couldnt locate edit");
+        return;
+    }
+
+    const flight = await Flight.findById(req.params.id);
+    res.status(200).send(house);
 
 });
 
-app.delete("/api/flights/:id", (req,res)=>{
-    const flight = flights.find((h)=>h._id===parseInt(req.params.id));
+app.delete("/api/flights/:id", async(req,res)=>{
+    const flight = await Flight.findByIdAndDelete(req.params.id);
     
     if(!flight) {
         res.status(404).send("The flight you wanted to delete is unavailable");
         return;
     }
 
-    const index = flights.indexOf(flight);
-    flights.splice(index, 1);
     res.status(200).send(flight);
 });
 
