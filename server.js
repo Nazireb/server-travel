@@ -100,10 +100,16 @@ const storage = multer.diskStorage({
 }
 ]*/
 
-app.get("/api/flights/", async(req, res)=>{
+app.get("/api/flights", async (req, res) => {
+  try {
     const flights = await Flight.find();
     res.send(flights);
+  } catch (err) {
+    console.error("Error in GET /api/flights:", err);
+    res.status(500).send("Error loading flights");
+  }
 });
+
 
 app.post("/api/flights", upload.single("img"), async(req,res)=>{
     console.log("in post request");
@@ -144,7 +150,7 @@ app.put("/api/flights/:id", upload.single("img"), async(req, res)=>{
     }
 
     if(req.file){
-        fieldsToUpdate.img_name = req.file.name;
+        fieldsToUpdate.img_name = req.file.filename;
     }
 
     const success = await Flight.updateOne({_id:req.params.id}, fieldsToUpdate);
