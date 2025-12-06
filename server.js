@@ -20,9 +20,12 @@ const storage = multer.diskStorage({
   const upload = multer({ storage: storage });
 
   mongoose
-    .connect("mongodb+srv://Nazire:Nazireb@cluster0.sdzworf.mongodb.net/")
-    .then(() => console.log("Connected to mongodb..."))
-    .catch((err) => console.error("could not connect ot mongodb...", err));
+  .connect(
+    "mongodb+srv://Nazire:Nazireb@cluster0.sdzworf.mongodb.net/travelDB?retryWrites=true&w=majority"
+  )
+  .then(() => console.log("Connected to mongodb..."))
+  .catch((err) => console.error("could not connect to mongodb...", err));
+
 
     const flightSchema = new mongoose.Schema({
         name:String,
