@@ -20,12 +20,9 @@ const storage = multer.diskStorage({
   const upload = multer({ storage: storage });
 
   mongoose
-  .connect(
-    "mongodb+srv://Nazire:Nazireb@cluster0.sdzworf.mongodb.net/travelDB?retryWrites=true&w=majority"
-  )
-  .then(() => console.log("Connected to mongodb..."))
-  .catch((err) => console.error("could not connect to mongodb...", err));
-
+    .connect("mongodb+srv://Nazire:Nazireb@cluster0.sdzworf.mongodb.net/")
+    .then(() => console.log("Connected to mongodb..."))
+    .catch((err) => console.error("could not connect ot mongodb...", err));
 
     const flightSchema = new mongoose.Schema({
         name:String,
@@ -103,16 +100,10 @@ const storage = multer.diskStorage({
 }
 ]*/
 
-app.get("/api/flights", async (req, res) => {
-  try {
+app.get("/api/flights/", async(req, res)=>{
     const flights = await Flight.find();
     res.send(flights);
-  } catch (err) {
-    console.error("Error in GET /api/flights:", err);
-    res.status(500).send("Error loading flights");
-  }
 });
-
 
 app.post("/api/flights", upload.single("img"), async(req,res)=>{
     console.log("in post request");
