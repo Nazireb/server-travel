@@ -30,7 +30,7 @@ const storage = multer.diskStorage({
         country:String
     });
 
-    const Flight = mongoose.mmodel("Flight", flightSchema);
+    const Flight = mongoose.model("Flight", flightSchema);
 
 
 /*let flights = [
