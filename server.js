@@ -144,7 +144,7 @@ app.put("/api/flights/:id", upload.single("img"), async(req, res)=>{
     }
 
     if(req.file){
-        fieldsToUpdate.img_name = req.filename;
+        fieldsToUpdate.img_name = req.file.name;
     }
 
     const success = await Flight.updateOne({_id:req.params.id}, fieldsToUpdate);
@@ -155,7 +155,7 @@ app.put("/api/flights/:id", upload.single("img"), async(req, res)=>{
     }
 
     const flight = await Flight.findById(req.params.id);
-    res.status(200).send(house);
+    res.status(200).send(flight);
 
 });
 
